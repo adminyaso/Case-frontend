@@ -1,0 +1,35 @@
+<div class="new-order-container">
+  <h2>Yeni Sipariş Oluştur</h2>
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <div class="form-header">
+      <label for="customerName">Müşteri Adı:</label>
+      <input id="customerName" formControlName="customerName" type="text">
+      <div *ngIf="orderForm.get('customerName')?.invalid && orderForm.get('customerName')?.touched">
+        <small *ngIf="orderForm.get('customerName')?.errors?.['required']">Müşteri adı gereklidir.</small>
+        <small *ngIf="orderForm.get('customerName')?.errors?.['maxLength']">100 karakteri aşamaz.</small>
+      </div>
+      <!-- Sepeti temizle butonu, eğer sepet boş değilse göster -->
+      <button type="button" *ngIf="cartCount > 0" (click)="clearCart()">Sepeti Boşalt</button>
+    </div>
+  
+    <div formArrayName="orderItems" class="order-items-container">
+      <div *ngFor="let control of orderItems.controls; let i = index" [formGroupName]="i" class="order-item-row">
+        <span class="product-id">#{{ cartItems[i].product.id }}</span>
+        <span class="product-name">{{ cartItems[i].product.name }}</span>
+        <label class="quantity-label">Adet:</label>
+        <input type="number" formControlName="quantity" class="quantity-input">
+        <img [src]="cartItems[i].product.imageUrl" alt="{{ cartItems[i].product.name }}" class="product-thumbnail">
+        <button type="button" (click)="removeOrderItem(i)" class="remove-btn" *ngIf="orderItems.controls.length > 1">Kaldır</button>
+      </div>
+    </div>
+  
+    <div class="total-price">
+      <p>Toplam Fiyat: {{ totalPrice | currency }}</p>
+    </div>
+  
+    <button type="submit" [disabled]="orderForm.invalid">Siparişi Tamamla</button>
+  </form>
+  
+  <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+</div>

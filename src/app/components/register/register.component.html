@@ -1,0 +1,18 @@
+<div class="register-container">
+    <h2>Kayıt Ol</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="username">Kullanıcı Adı:</label>
+        <input id="username" formControlName="username" type="text">
+      </div>
+      <div>
+        <label for="password">Şifre:</label>
+        <input id="password" formControlName="password" type="password">
+      </div>
+      <button type="submit" [disabled]="registerForm.invalid">Kayıt Ol</button>
+    </form>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+    <p>Zaten hesabınız var mı? <a routerLink="/login">Login</a></p>
+  </div>
+  

@@ -1,0 +1,17 @@
+
+  <div class="product-list">
+    <h1>Ürün Listesi</h1>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="products.length === 0 && !errorMessage">
+      <p>Henüz ürün yok.</p>
+    </div>
+    <div class="product-grid">
+      <div *ngFor="let product of products" class="product-card">
+        <img [src]="product.imageUrl" alt="{{ product.name }}">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.price | currency }}</p>
+        <button (click)="addToCart(product)">Sepete Ekle</button>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,24 @@
+<div *ngIf="order; else loading">
+    <h2>Sipariş Detayı - #{{ order.id }}</h2>
+    <div class="order-status-bar">
+      <span>{{ order.status }}</span>
+    </div>
+    <p>Müşteri: {{ order.customerName }}</p>
+    <p>Güncelleme Tarihi: {{ order.updatedTime | date }}</p>
+    <p>Total: {{ order.totalPrice | currency }}</p>
+    <button *ngIf="order.status === 'Bekliyor'" (click)="cancelOrder()">İptal Et</button>
+    
+    <h3>Sipariş Ürünleri</h3>
+    <div class="order-items">
+      <div *ngFor="let item of order.orderItems" class="order-item">
+        <img [src]="item.product.imageUrl" alt="{{ item.product.name }}">
+        <p>{{ item.product.name }}</p>
+        <p>Fiyat: {{ item.product.price | currency }}</p>
+        <p>Adet: {{ item.quantity }}</p>
+      </div>
+    </div>
+  </div>
+  <ng-template #loading>
+    <p>Yükleniyor...</p>
+  </ng-template>
+  

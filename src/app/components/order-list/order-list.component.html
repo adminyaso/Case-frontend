@@ -1,0 +1,28 @@
+<div class="order-list-container">
+  <h2>Siparişlerim</h2>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngFor="let order of orders" class="order-card">
+    <div class="order-header">
+      <span class="order-id">#{{ order.id }}</span>
+      <span class="customer-name">{{ order.customerName }}</span>
+      <span class="order-date">Oluşturulma Tarihi: {{ order.orderDate | date }}</span>
+      <span class="order-status">Durum: {{ order.status }}</span>
+      <span class="order-total">Total: {{ order.totalPrice | currency }}</span>
+      <button routerLink="/orders/{{ order.id }}" class="details-btn">Detaylar</button>
+    </div>
+    <div class="order-items-preview">
+      <ng-container *ngFor="let item of order.orderItems; let i = index">
+        <div class="order-item" *ngIf="i < 10">
+          <img [src]="item.product.imageUrl" alt="{{ item.product.name }}">
+          <span class="product-name">
+            {{ item.product.name.length > 7 ? item.product.name.substring(0, 7) + '...' : item.product.name }}
+          </span>
+          
+        </div>
+      </ng-container>
+      <div class="extra-items" *ngIf="order.orderItems.length > 10">
+        +{{ order.orderItems.length - 10 }}
+      </div>
+    </div>
+  </div>
+</div>

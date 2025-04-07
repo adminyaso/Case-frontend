@@ -1,0 +1,84 @@
+
+.order-list-container {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+  
+  .order-list-container h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #007bff;
+  }
+  
+  .order-status-bar {
+    background-color: #f1f1f1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+  
+  .order-status-bar span {
+    font-weight: bold;
+    color: #28a745;
+  }
+  
+  .order-list-container p {
+    margin: 5px 0;
+    font-size: 1em;
+  }
+  
+  button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #c82333;
+  }
+  
+  .order-list-container h3 {
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #555;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 5px;
+  }
+  
+  .order-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .order-item {
+    flex: 0 0 150px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .order-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .order-item p {
+    margin: 4px 0;
+    font-size: 0.9em;
+    color: #555;
+  }
+  
