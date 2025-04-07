@@ -3,18 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/entries/product.model';
 import { environment } from '../../environments/environment';
+import { catchError } from 'rxjs/operators';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-  // API url
+export class ProductService extends BaseService{
   private apiUrl = environment.apiUrl + '/product';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { super(); }
 
-  // GET Product
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      catchError(err => this.handleError(err))
+    );
   }
 }

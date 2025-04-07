@@ -35,10 +35,7 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error('Logging error:', err);
-        // err.error'nin description'ı alma
-        if (err.error && Array.isArray(err.error) && err.error.length > 0) {
-          this.errorMessage = err.error[0].description;
-        }
+        this.errorMessage = err.message || 'Giriş başarısız.';
       }
     });
   }

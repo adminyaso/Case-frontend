@@ -29,11 +29,8 @@ export class OrderListComponent implements OnInit {
         this.isLoading = false;},
       error: (err) => {
         console.error('OrderListing error:', err);
-        // err.error'nin description'ı alma
-        if (err.error && Array.isArray(err.error) && err.error.length > 0) {
-          this.errorMessage = err.error[0].description;
-          this.isLoading = false;
-        }
+        this.isLoading = false;
+        this.errorMessage = err.message || 'Sipariş listesi getirilemedi.';
       }
     });
   }

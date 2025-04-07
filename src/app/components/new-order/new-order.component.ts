@@ -33,7 +33,6 @@ export class NewOrderComponent implements OnInit {
       });
   
       this.cartItems = this.cartService.getCartItems();
-      // Sepetteki her ürün için orderItems'e grubu ekleme
       this.cartItems.forEach(item => {
         (this.orderForm.get('orderItems') as FormArray).push(
           this.fb.group({
@@ -54,7 +53,7 @@ export class NewOrderComponent implements OnInit {
           };
         });
         this.cartService.setCartItems(updatedCartItems);
-        this.cartItems = updatedCartItems; // local değeri güncelleme
+        this.cartItems = updatedCartItems;
       });
       this.isLoading = false;
 
@@ -84,7 +83,6 @@ export class NewOrderComponent implements OnInit {
     return this.orderForm.get('orderItems') as FormArray;
   }
 
-  // Toplam fiyatı, sepet verilerine göre hesaplıyoruz
   get totalPrice(): number {
     return this.cartItems.reduce((sum, item) => {
       return sum + (item.product.price * item.quantity);
@@ -104,19 +102,13 @@ export class NewOrderComponent implements OnInit {
         console.log('Order creation successful:', res);
         this.successMessage = 'Sipariş başarıyla oluşturuldu.';
         this.isLoading = false;
-        // Sipariş oluşturulduktan sonra sepet temizlenir anasayfaya gönderir.
         this.cartService.clearCart();
-        // this.router.navigate(['/orders']);
+        this.router.navigate(['/orders']);
       },
       error: (err) => {
         console.error('Order creation error:', err);
         this.isLoading = false;
-        if (err.error && Array.isArray(err.error) && err.error.length > 0) {
-          this.errorMessage = err.error[0].description;
-        } else if (err.error && err.error.description) {
-          this.errorMessage = err.error.description;
-        }
-          else {this.errorMessage = 'Sipariş oluşturulamadı.';}
+        this.errorMessage = err.message || 'Sipariş oluşturulamadı.';
       }
     });
   }

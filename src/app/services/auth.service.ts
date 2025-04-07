@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { catchError } from 'rxjs/operators';
+import { BaseService } from './base.service';
 
 export interface AuthResponse {
   token: string;
@@ -10,19 +12,21 @@ export interface AuthResponse {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService extends BaseService{
   private apiUrl = environment.apiUrl + '/auth';
   private loggedIn = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.loggedIn.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {  super(); }
 
   register(username: string, password: string): Observable<string> {
-    return this.http.post(`${this.apiUrl}/register`, { username, password }, { responseType: 'text' });
+    return this.http.post(`${this.apiUrl}/register`, { username, password }, { responseType: 'text' }).pipe(
+      catchError(err => this.handleError(err)));
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { username, password });
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
+      catchError(err => this.handleError(err)));
   }
 
   setSession(token: string): void {
@@ -36,11 +40,9 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    // Tarayıcı ortamında çalışıyorsa localStorage mevcuttur
     if (typeof window !== 'undefined' && window.localStorage) {
       return !!localStorage.getItem('token');
     }
-    // Sunucu ortamında (SSR) false döndürmek güvenli bir seçenek olabilir
     return false;
   }
   

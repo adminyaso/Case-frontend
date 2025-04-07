@@ -29,11 +29,8 @@ export class OrderDetailComponent implements OnInit {
         this.isLoading = false;},
       error: (err) => {
         console.error('OrderDetailing error:', err);
-        // err.error'nin description'ı alma
-        if (err.error && Array.isArray(err.error) && err.error.length > 0) {
-          this.errorMessage = err.error[0].description;
-          this.isLoading = false;
-        }
+        this.isLoading = false;
+        this.errorMessage = err.message || 'Sipariş detayı getirilemedi.';
       }
     });
   }
@@ -44,10 +41,7 @@ export class OrderDetailComponent implements OnInit {
         next: () => this.ngOnInit(),
         error: (err) => {
           console.error('CancellingOrder error:', err);
-          // err.error'nin description'ı alma
-          if (err.error && Array.isArray(err.error) && err.error.length > 0) {
-            this.errorMessage = err.error[0].description;
-          }
+          this.errorMessage = err.message || 'Sipariş iptal edilemedi.';
         }
       });
     }

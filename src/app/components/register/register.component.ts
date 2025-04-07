@@ -32,15 +32,12 @@ export class RegisterComponent {
     this.authService.register(username, password).subscribe({
       next: (res) => {
         console.log('Registration successful:', res);
-        this.successMessage = 'Kayıt başarılı, lütfen login olun.';
+        this.successMessage = 'Kayıt başarılı';
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('Registration error:', err);
-        // err.error'nin description'ı alma
-        if (err.error && Array.isArray(err.error) && err.error.length > 0) {
-          this.errorMessage = err.error[0].description;
-        }
+        this.errorMessage = err.message || 'Kayıt oluşturulamadı.';
       }
     });
   }

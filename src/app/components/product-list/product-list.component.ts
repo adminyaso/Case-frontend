@@ -32,17 +32,14 @@ export class ProductListComponent implements OnInit {
     this.loadProducts();
   }
 
-  // API'den ürün listesini çeker
   loadProducts(): void {
     this.productService.getProducts().subscribe({
       next: (data) => {this.products = data;
       this.isLoading = false;},
       error: (err) => {
         console.error('Get Product error:', err);
-        if (err.error && Array.isArray(err.error) && err.error.length > 0) {
-          this.errorMessage = err.error[0].description;
-          this.isLoading = false;
-        }
+        this.isLoading = false;
+        this.errorMessage = err.message || 'Ürün listesi getirilemedi.';
       }
     });
   }
