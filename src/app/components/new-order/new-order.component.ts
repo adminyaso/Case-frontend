@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { CartService, CartItem } from '../../services/cart.service';
+import { LoadingComponent } from '../../shared/loading.component';
 
 @Component({
   selector: 'app-new-order',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, LoadingComponent],
   templateUrl: './new-order.component.html',
   styleUrls: ['./new-order.component.css']
 })
@@ -16,6 +17,7 @@ export class NewOrderComponent implements OnInit {
   orderForm!: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
+  isLoading: boolean = true;
 
   cartItems: CartItem[] = [];
 
@@ -54,6 +56,7 @@ export class NewOrderComponent implements OnInit {
         this.cartService.setCartItems(updatedCartItems);
         this.cartItems = updatedCartItems; // local değeri güncelleme
       });
+      this.isLoading = false;
 
     }
 
@@ -95,17 +98,19 @@ export class NewOrderComponent implements OnInit {
       ...this.orderForm.value,
       totalPrice: this.totalPrice
     };
-
+    this.isLoading = true;
     this.orderService.createOrder(orderData).subscribe({
       next: (res) => {
         console.log('Order creation successful:', res);
         this.successMessage = 'Sipariş başarıyla oluşturuldu.';
+        this.isLoading = false;
         // Sipariş oluşturulduktan sonra sepet temizlenir anasayfaya gönderir.
         this.cartService.clearCart();
-        this.router.navigate(['/orders']);
+        // this.router.navigate(['/orders']);
       },
       error: (err) => {
         console.error('Order creation error:', err);
+        this.isLoading = false;
         if (err.error && Array.isArray(err.error) && err.error.length > 0) {
           this.errorMessage = err.error[0].description;
         } else if (err.error && err.error.description) {

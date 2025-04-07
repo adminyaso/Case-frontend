@@ -1,6 +1,10 @@
 <div class="order-list-container">
   <h2>Siparişlerim</h2>
   <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+  
   <div *ngFor="let order of orders" class="order-card">
     <div class="order-header">
       <span class="order-id">#{{ order.id }}</span>

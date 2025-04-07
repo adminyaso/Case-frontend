@@ -1,3 +1,7 @@
+<div *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>
+
 <div class="new-order-container">
   <h2>Yeni Sipariş Oluştur</h2>
   <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">

@@ -5,12 +5,13 @@ import { ProductService } from '../../services/product.service';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../models/entries/product.model';
+import { LoadingComponent } from '../../shared/loading.component';
 
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, LoadingComponent],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
@@ -18,6 +19,7 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   errorMessage: string = '';
   cart: Product[] = [];
+  isLoading: boolean = true;
 
   constructor(
     private productService: ProductService,
@@ -33,11 +35,13 @@ export class ProductListComponent implements OnInit {
   // API'den ürün listesini çeker
   loadProducts(): void {
     this.productService.getProducts().subscribe({
-      next: (data) => this.products = data,
+      next: (data) => {this.products = data;
+      this.isLoading = false;},
       error: (err) => {
         console.error('Get Product error:', err);
         if (err.error && Array.isArray(err.error) && err.error.length > 0) {
           this.errorMessage = err.error[0].description;
+          this.isLoading = false;
         }
       }
     });

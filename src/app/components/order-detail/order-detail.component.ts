@@ -4,17 +4,19 @@ import { OrderService } from '../../services/order.service';
 import { CommonModule } from '@angular/common';
 import { Order, OrderItem } from '../../models/entries/order.model';
 import { Product } from '../../models/entries/product.model';
+import { LoadingComponent } from '../../shared/loading.component';
 
 @Component({
   selector: 'app-order-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, LoadingComponent],
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.css']
 })
 export class OrderDetailComponent implements OnInit {
   order: Order | null = null;
   errorMessage: string = '';
+  isLoading: boolean = true;
 
   constructor(private route: ActivatedRoute,
               private orderService: OrderService,
@@ -23,12 +25,14 @@ export class OrderDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.orderService.getOrderById(id).subscribe({
-      next: (data) => this.order = data,
+      next: (data) => {this.order = data;
+        this.isLoading = false;},
       error: (err) => {
         console.error('OrderDetailing error:', err);
         // err.error'nin description'ı alma
         if (err.error && Array.isArray(err.error) && err.error.length > 0) {
           this.errorMessage = err.error[0].description;
+          this.isLoading = false;
         }
       }
     });

@@ -1,4 +1,8 @@
+<div *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>
 <div *ngIf="order; else loading">
+  
     <h2>Sipariş Detayı - #{{ order.id }}</h2>
     <div class="order-status-bar">
       <span>{{ order.status }}</span>
