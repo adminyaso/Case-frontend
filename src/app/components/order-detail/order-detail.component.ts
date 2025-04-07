@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { OrderService, Order } from '../../services/order.service';
+import { OrderService } from '../../services/order.service';
 import { CommonModule } from '@angular/common';
+import { Order, OrderItem } from '../../models/entries/order.model';
+import { Product } from '../../models/entries/product.model';
 
 @Component({
   selector: 'app-order-detail',

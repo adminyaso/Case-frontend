@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Product } from './product.service'; // Ürün modelinizin doğru yolu
+import { Product } from '../models/entries/product.model';// Ürün modelinizin doğru yolu
 
 export interface CartItem {
   product: Product;
   quantity: number;
 }
-
 @Injectable({
   providedIn: 'root'
 })
